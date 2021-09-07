@@ -1,0 +1,32 @@
+version: "2.3"
+services:
+  cisco:
+    build:
+      context: docker/image/cisco
+    networks:
+      main:
+        ipv4_address: 10.101.0.2
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    restart: "always"
+    security_opt:
+      - label:disable
+
+  socks5:
+    image: wernight/dante
+    depends_on:
+      - cisco
+    volumes:
+      - $PWD/sockd.conf:/etc/sockd.conf
+    restart: "always"
+    network_mode: "service:cisco"
+
+networks:
+  main:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.101.0.0/29
+          gateway: 10.101.0.1
