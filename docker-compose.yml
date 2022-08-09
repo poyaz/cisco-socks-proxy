@@ -18,13 +18,18 @@ services:
     depends_on:
       - cisco
     volumes:
-      - $PWD/sockd.conf:/etc/sockd.conf
+      - $PWD/storage/docker/socks5/sockd.conf:/etc/sockd.conf
+    healthcheck:
+      test: [ "CMD-SHELL", "test `ip -o a show | cut -d ' ' -f 2 | grep tun0 | wc -l` -eq 1 || kill 1" ]
+      interval: 3s
+      timeout: 2s
     restart: "always"
     network_mode: "service:cisco"
 
 networks:
   main:
     driver: bridge
+    enable_ipv6: false
     ipam:
       driver: default
       config:
