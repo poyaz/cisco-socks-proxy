@@ -21,7 +21,7 @@ services:
       - $PWD/storage/docker/socks5/sockd.conf:/etc/sockd.conf
     healthcheck:
       test: [ "CMD-SHELL", "test `ip -o a show | cut -d ' ' -f 2 | grep tun0 | wc -l` -eq 1 || kill 1" ]
-      interval: 3s
+      interval: 11s
       timeout: 2s
     restart: "always"
     network_mode: "service:cisco"
