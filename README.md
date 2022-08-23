@@ -52,5 +52,9 @@ This service create network in range 10.101.0.0/29 and proxy run in 10.101.0.2
 ```bash
 ### No need use username and password for connect to proxy
 
+### Socks proxy
 curl -x socks5h://10.101.0.2:1080 ifconfig.io
+
+### Http proxy
+curl -x http://10.101.0.2:10001 ifconfig.io
 ```
